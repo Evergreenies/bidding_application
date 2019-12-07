@@ -1,0 +1,81 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+
+    <div class="row">
+        <div class="col-md-9">
+            <div class="content-section">
+                <article class="media content-section">
+                    <img class="rounded-circle article-img" src="{{ url_for('static', filename='pics/' + my_product.picture) }}" alt="{{ my_product.owner.username }}">
+                    <div class="media-body">
+                        <div class="article-metadata">
+                            <a class="mr-2" href="{{ url_for('user_product', username=my_product.owner.username) }}">{{ my_product.owner.username }}</a>
+                            <small class="text-muted m-2"><b>Date Posted:</b> {{ my_product.post_created.strftime('%Y-%m-%d') }}</small>
+                            <small class="text-muted m-2"><b>Last Date To Bid:</b> {{ my_product.last_date_to_bid.strftime('%Y-%m-%d') }}</small>
+
+                            {% if my_product.owner == current_user %}
+                                <a href="{{ url_for('update_product', product_id=my_product.id) }}" class="btn btn-secondary btn-sm mt-1 mb-1 float-right m-2">Update</a>
+                                <button class="btn btn-danger btn-sm m-1 float-right m-2" data-toggle="modal" data-target="#deleteModal">Delete</button>
+                            {% endif %}
+
+                            {% if my_product.owner != current_user %}
+                                <small class="text-muted m-2 mt-2 mb-2 float-center"><b>Minimum Bidding:</b> <b class="text-success">&#8377;{{ my_product.minimum_bid }}</b></small>
+
+                                {% if my_product.bids %}
+                                    <small class="text-muted m-2 mt-2 mb-2 float-center"><b>Maximum Bidding Value:</b> <b class="text-success">&#8377;{{ my_product.bids.bid_value }}</b></small>
+                                {% endif %}
+
+                                <a href="{{ url_for('bid_product', product_id=my_product.id) }}" class="btn btn-info btn-sm m-2 mt-1 mb-1 float-right">Bidding</a>
+                            {% endif %}
+
+                        </div>
+                        <h2 class="article-title">{{ my_product.product_name }}</h2>
+                        <p class="article-content">{{ my_product.product_description }}</p>
+                    </div>
+                </article>
+
+                <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Delete Post</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <form action="{{ url_for('delete_product', product_id=my_product.id) }}" method="post">
+                                    <input type="submit" class="btn btn-danger" value="Delete">
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="content-section">
+                <h3>Our Sidebar</h3>
+                <p class='text-muted'>You can put any information here you'd like.
+                <ul class="list-group">
+                    <li class="list-group-item list-group-item-light">
+                        <a href="{{ url_for('add_product') }}">Add Product</a>
+                    </li>
+                    <li class="list-group-item list-group-item-light">Announcements</li>
+                    <li class="list-group-item list-group-item-light">Calendars</li>
+                    <li class="list-group-item list-group-item-light">etc</li>
+                </ul>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="border-top pt-3">
+        <small class="text-muted">
+            Help Others to Help Yourself!
+        </small>
+    </div>
+
+{% endblock content %}

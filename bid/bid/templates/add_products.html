@@ -1,0 +1,118 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+    <div class="row un-authenticate-viewport-height">
+        <div class="col-lg-4"></div>
+        <div class="col-lg-4">
+            <div class="content-section">
+
+                <form action="" method="post" enctype="multipart/form-data">
+                    {{ form.hidden_tag() }}
+                    <fieldset class="form-group">
+                        <legend class="border-bottom mb-4">{{ legend }}</legend>
+
+                        <div class="form-group">
+                            {{ form.product_name.label(class="form-control-label") }}
+
+                            {% if form.product_name.errors %}
+                                {{ form.product_name(class="form-control form-control-md is-invalid") }}
+                                    <div class="invalid-feedback">
+                                        {% for error in form.product_name.errors %}
+                                            <span>{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+                            {% else %}
+                                {{ form.product_name(class="form-control form-control-md") }}
+                            {% endif %}
+                        </div>
+
+                        <div class="form-group">
+                            {{ form.product_description.label(class="form-control-label") }}
+
+                            {% if form.product_description.errors %}
+                                {{ form.product_description(class="form-control form-control-md is-invalid") }}
+                                    <div class="invalid-feedback">
+                                        {% for error in form.product_description.errors %}
+                                            <span>{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+                            {% else %}
+                                {{ form.product_description(class="form-control form-control-md") }}
+                            {% endif %}
+                        </div>
+
+                        <div class="form-group">
+                            {{ form.category.label(class="form-control-label") }}
+
+                            {% if form.category.errors %}
+                                {{ form.category(class="form-control form-control-md is-invalid") }}
+                                    <div class="invalid-feedback">
+                                        {% for error in form.category.errors %}
+                                            <span>{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+                            {% else %}
+                                {{ form.category(class="form-control form-control-md") }}
+                            {% endif %}
+                        </div>
+
+                        <div class="form-group">
+                            {{ form.minimum_bid.label(class="form-control-label") }}
+
+                            {% if form.minimum_bid.errors %}
+                                {{ form.minimum_bid(class="form-control form-control-md is-invalid") }}
+                                    <div class="invalid-feedback">
+                                        {% for error in form.minimum_bid.errors %}
+                                            <span>{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+                            {% else %}
+                                {{ form.minimum_bid(class="form-control form-control-md") }}
+                            {% endif %}
+                        </div>
+
+                        <div class="form-group">
+                            {{ form.last_date_to_bid.label(class="form-control-label") }}
+
+                            {% if form.last_date_to_bid.errors %}
+                                {{ form.last_date_to_bid(class="form-control form-control-md is-invalid datepicker") }}
+                                    <div class="invalid-feedback">
+                                        {% for error in form.last_date_to_bid.errors %}
+                                            <span>{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+                            {% else %}
+                                {{ form.last_date_to_bid(class="form-control form-control-md") }}
+                            {% endif %}
+                        </div>
+
+                        <div class="form-group">
+                            {{ form.picture.label(class="form-control-label") }}
+
+                            {% if form.picture.errors %}
+                                {{ form.picture(class="form-control-file is-invalid") }}
+                                    <div class="invalid-feedback">
+                                        {% for error in form.picture.errors %}
+                                            <span>{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+                            {% else %}
+                                {{ form.picture(class="form-control-file") }}
+                            {% endif %}
+                        </div>
+
+                    </fieldset>
+
+                    <div class="border-top pt-3"></div>
+
+                    <div class="form-group">
+                        {{ form.submit(class="btn btn-info") }}
+                    </div>
+
+                </form>
+            </div>
+
+        </div>
+        <div class="col-lg-4"></div>
+    </div>
+{% endblock content %}

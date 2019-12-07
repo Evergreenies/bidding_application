@@ -1,0 +1,80 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+
+    <div class="row">
+        <div class="col-md-9">
+            <div class="content-section">
+
+                {% if products.items %}
+
+                    <h1 class="mb-3">Products by {{ user.username }} ({{ products.total }}) </h1>
+
+                    {% for product in products.items %}
+                        <article class="media content-section">
+                            <img class="rounded-circle article-img" src="{{ url_for('static', filename='pics/' + product.picture) }}" alt="{{ product.product_name }}">
+                            <div class="media-body">
+                                <div class="article-metadata">
+                                    <a class="mr-2" href="{{ url_for('user_product', username=product.owner.username) }}">{{ product.owner.username }}</a>
+                                    <small class="text-muted m-2"><b>Date Posted:</b> {{ product.post_created.strftime('%Y-%m-%d') }}</small>
+                                    <small class="text-muted m-2"><b>Last Date To Bid:</b> {{ product.last_date_to_bid.strftime('%Y-%m-%d') }}</small>
+
+                                    {% if product.owner != current_user %}
+                                        <small class="text-muted m-2 mt-2 mb-2 float-center"><b>Minimum Bidding:</b> <b class="text-success">&#8377;{{ product.minimum_bid }}</b></small>
+
+                                        {% if product.bids %}
+                                            <small class="text-muted m-2 mt-2 mb-2 float-center"><b>Maximum Bidding Value:</b> <b class="text-success">&#8377;{{ product.bids.bid_value }}</b></small>
+                                        {% endif %}
+
+                                        <a href="{{ url_for('bid_product', product_id=product.id) }}" class="btn btn-info btn-sm m-2 mt-1 mb-1 float-right">Bidding</a>
+                                    {% endif %}
+
+                                </div>
+                                <h2><a class="article-title" href="{{ url_for('product', product_id=product.id) }}">{{ product.product_name }}</a></h2>
+                                <p class="article-content">{{ product.product_description }}</p>
+                            </div>
+                        </article>
+                    {% endfor %}
+
+                    {% for page_num in products.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=1) %}
+                        {% if page_num %}
+                            {% if products.page == page_num %}
+                                <a href="{{ url_for('home', page=page_num) }}" class="btn btn-info mb-4"> {{ page_num }} </a>
+                            {% else %}
+                                <a href="{{ url_for('home', page=page_num) }}" class="btn btn-outline-info mb-4"> {{ page_num }} </a>
+                            {% endif %}
+                        {% else %}
+                            ...
+                        {% endif %}
+                    {% endfor %}
+
+                {% else %}
+                    <h5 class="text-muted m-4">No products available yet!</h5>
+                {% endif %}
+
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="content-section">
+                <h3>Our Sidebar</h3>
+                <p class='text-muted'>You can put any information here you'd like.
+                <ul class="list-group">
+                    <li class="list-group-item list-group-item-light">
+                        <a href="{{ url_for('add_product') }}">Add Product</a>
+                    </li>
+                    <li class="list-group-item list-group-item-light">Announcements</li>
+                    <li class="list-group-item list-group-item-light">Calendars</li>
+                    <li class="list-group-item list-group-item-light">etc</li>
+                </ul>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="border-top pt-3">
+        <small class="text-muted">
+            Help Others to Help Yourself!
+        </small>
+    </div>
+
+{% endblock content %}
